@@ -7,21 +7,24 @@ import { StatefulInput } from "baseui/input";
 import { useEffect } from "react";
 import { store } from '../app/store/store'
 import { Provider } from 'react-redux'
+import { SessionProvider } from "next-auth/react"
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps: {session, ...pageProps} }: AppProps): JSX.Element  {
 
 
   return (
-    <Provider store={store}>
-      <StyletronProvider value={styletron}>
-        <BaseProvider theme={LightTheme}>
-          <Provider store={store}>
-            <div className="">
-              <Component {...pageProps} />
-            </div>
-          </Provider>
-        </BaseProvider>
-      </StyletronProvider>
-    </Provider>
+    <SessionProvider session={session}>
+      <Provider store={store}>
+        <StyletronProvider value={styletron}>
+          <BaseProvider theme={LightTheme}>
+            <Provider store={store}>
+              <div className="">
+                <Component {...pageProps} />
+              </div>
+            </Provider>
+          </BaseProvider>
+        </StyletronProvider>
+      </Provider>
+    </SessionProvider>
   );
 }
