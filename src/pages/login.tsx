@@ -74,6 +74,7 @@ export default function Login() {
   useEffect(() => {
     //@ts-ignore
     localStorage.setItem("accessToken", session?.accessToken || ""); //session local storage a kaydedildi, bunun yerine storeda da tutulabilir.
+    localStorage.setItem("user", JSON.stringify(session?.user || "")); //session local storage a kaydedildi, bunun yerine storeda da tutulabilir.
   }, [session]);
 
   return (

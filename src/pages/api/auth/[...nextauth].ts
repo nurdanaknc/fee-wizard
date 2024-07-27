@@ -3,6 +3,7 @@ import * as https from "https";
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+
 const httpsAgent = new https.Agent({
   rejectUnauthorized: true,
 });
@@ -58,9 +59,12 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async jwt(jwtProps: any) {
       const { token, user } = jwtProps;
-      
+
       if (user?.access_token) {
         token.accessToken = user.access_token;
+        token.user_id = user.user._id;
+        token.email = user.user.email;
+        token.fullname = user.user.fullname;
       }
 
       return token;
@@ -70,6 +74,11 @@ export const authOptions: AuthOptions = {
       console.log(token.accessToken, "token");
       if (token.accessToken) {
         session.accessToken = token.accessToken;
+        session.user = {
+          user_id: token.user_id,
+          email: token.email,
+          fullname: token.fullname,
+        };
       } else {
         session.error = "Access token is missing";
       }
@@ -80,9 +89,9 @@ export const authOptions: AuthOptions = {
       if (user) {
         return true;
       } else {
-        return '/error';
+        return "/error";
       }
-    }
+    },
   },
 };
 

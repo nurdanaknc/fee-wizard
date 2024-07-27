@@ -4,9 +4,19 @@ import {axiosInstance as axios} from "@/helpers/axios";
 
 export interface FeeWizardState {
   navbar: boolean;
+  user: {
+    _id: string,
+    fullname: string,
+    email: string,
+  }
 }
 const initialState: FeeWizardState = {
   navbar: false,
+  user: {
+    _id: "",
+    fullname: "",
+    email: "",
+  }
 };
 
 
@@ -34,8 +44,11 @@ export const feeWizardSlice = createSlice({
     deactivateNavbar: (state) => {
       state.navbar = false;
     },
+    setUser: (state, action: PayloadAction<FeeWizardState["user"]>) => {
+      state.user = action.payload;
+    }
   },
 });
 
-export const { activateNavbar, deactivateNavbar } = feeWizardSlice.actions;
+export const { activateNavbar, deactivateNavbar, setUser } = feeWizardSlice.actions;
 export default feeWizardSlice.reducer;
