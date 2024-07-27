@@ -57,7 +57,7 @@ export default function Login() {
   }
   , [password, email]);
 
-
+/*
   useEffect(() => {
     const handleKeyPress = async (event: KeyboardEvent) => {
       if (event.key === "Enter") {
@@ -68,7 +68,8 @@ export default function Login() {
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [password]);
+  }, []);
+  */
 
   useEffect(() => {
     //@ts-ignore

@@ -41,7 +41,7 @@ export default function ResidenceDetails() {
   ];
   useEffect(() => {
     dispatch(activateNavbar());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

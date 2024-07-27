@@ -8,6 +8,7 @@ import Icon from "@mdi/react";
 import { mdiHomePlus } from "@mdi/js";
 import ButtonComp from "@/app/components/button";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 export default function SelectResidence() {
   const [selectedResidence, setSelectedResidence] = React.useState([]);
@@ -24,7 +25,12 @@ export default function SelectResidence() {
       <Card>
         <div className=" px-20 py-12 flex flex-col gap-4 items-center justify-center w-[600px]">
           <div className="flex flex-col gap-2 items-center text-center">
-            <img src="img/residenceIcon.png" alt="selectResidence" className="w-10 h-10" />
+            <Image
+              src="/img/residenceIcon.png"
+              alt="selectResidence"
+              width={10}
+              height={10}
+            />
             <div className=" text-2xl font-bold text-black ">
               Select Residence
             </div>

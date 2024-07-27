@@ -42,7 +42,7 @@ export default function ResidenceDetails() {
   ];
   useEffect(() => {
     dispatch(activateNavbar());
-  }, []);
+  }, [dispatch]);
   type TurkishCharacters = {
     ç: string;
     ğ: string;
