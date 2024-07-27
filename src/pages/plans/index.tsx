@@ -92,8 +92,8 @@ export default function ResidenceDetails() {
             </div>
             <div className="flow-root">
               <ul role="list" className="divide-y divide-gray-200">
-                {data.map((item) => (
-                  <li className="py-3 sm:py-4">
+                {data.map((item, index:number) => (
+                  <li key={index} className="py-3 sm:py-4">
                     <div className="flex items-center">
                       <div className="flex-1 min-w-0 ">
                         <p className="text-sm font-medium text-gray-900 truncate ">
