@@ -2,17 +2,22 @@ import InputField from "@/app/components/inputField";
 import { Button } from "baseui/button";
 import { Card } from "baseui/card";
 import { Select } from "baseui/select";
-import React from "react";
+import React, { useEffect } from "react";
 
 import Icon from "@mdi/react";
 import { mdiHomePlus } from "@mdi/js";
 import ButtonComp from "@/app/components/button";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
+import { getSitesByManagerId, setSite } from "@/app/store/sites";
 
 export default function SelectResidence() {
-  const [selectedResidence, setSelectedResidence] = React.useState([]);
+  const [selectedResidence, setSelectedResidence] = React.useState({} as any);
+  const [allResidences , setAllResidences] = React.useState([ ] as any);
   const router = useRouter();
+  const dispatch = useAppDispatch();
+
   const residences = [
     { id: 1, label: "Residence 1" },
     { id: 2, label: "Residence 2" },
@@ -20,6 +25,24 @@ export default function SelectResidence() {
     { id: 4, label: "Residence 4" },
     { id: 5, label: "Residence 5" },
   ];
+
+  const getSites = async () => {
+    const res = await dispatch(getSitesByManagerId("66a2e0fae342a56c79f163a1"));
+    setAllResidences(
+      res.payload?.data.map((item: any) => {
+        return {
+          id: item?._id,
+          label: item?.name,
+        };
+      })
+    );
+  }
+
+  useEffect(() => {
+    getSites();
+  }
+  , []);
+
   return (
     <div className="flex items-center justify-center h-screen">
       <Card>
@@ -28,8 +51,8 @@ export default function SelectResidence() {
             <Image
               src="/img/residenceIcon.png"
               alt="selectResidence"
-              width={10}
-              height={10}
+              width={40}
+              height={40}
             />
             <div className=" text-2xl font-bold text-black ">
               Select Residence
@@ -44,14 +67,17 @@ export default function SelectResidence() {
                 Select Residence
               </span>
               <Select
-                options={residences}
+                options={allResidences}
                 value={selectedResidence}
                 placeholder="Select residence.."
                 onChange={(e: any) => setSelectedResidence(e.value)}
               />
             </div>
             <div className="flex flex-col gap-3 w-full">
-              <Button className="w-full" onClick={() => router.push("/plans")}>
+              <Button className="w-full" onClick={() => {router.push("/plans");
+                  localStorage.setItem("siteId", selectedResidence[0]?.id);
+
+              }}>
                 Continue
               </Button>
               <ButtonComp

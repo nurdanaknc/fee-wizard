@@ -50,31 +50,31 @@ export default function Login() {
     setPasswordError(false);
   };
 
+  /*
+    useEffect(() => {
+      const handleKeyPress = async (event: KeyboardEvent) => {
+        if (event.key === "Enter") {
+          await loginSubmit();
+        }
+      };
+      window.addEventListener("keydown", handleKeyPress);
+      return () => {
+        window.removeEventListener("keydown", handleKeyPress);
+      };
+    }, []);
+    */
 
   useEffect(() => {
-    console.log(email, "email");
-    console.log(password, "password");
+    if (session) {
+      router.push("/selectResidence");
+    }
   }
-  , [password, email]);
-
-/*
-  useEffect(() => {
-    const handleKeyPress = async (event: KeyboardEvent) => {
-      if (event.key === "Enter") {
-        await loginSubmit();
-      }
-    };
-    window.addEventListener("keydown", handleKeyPress);
-    return () => {
-      window.removeEventListener("keydown", handleKeyPress);
-    };
-  }, []);
-  */
+    , [session]);
 
   useEffect(() => {
     //@ts-ignore
-    localStorage.setItem("accessToken", session?.accessToken || ""); //session local storage a kaydedildi, bunun yerine storeda da tutulabilir.
-    localStorage.setItem("user", JSON.stringify(session?.user || "")); //session local storage a kaydedildi, bunun yerine storeda da tutulabilir.
+    localStorage.setItem("accessToken", session?.accessToken || "");
+    localStorage.setItem("user", JSON.stringify(session?.user || ""));
   }, [session]);
 
   return (

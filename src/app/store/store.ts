@@ -1,10 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { feeWizardSlice } from './api'
+import { sitesSlice } from './sites'
 
 export const store = configureStore({
   reducer: {
-
     api: feeWizardSlice.reducer,
+    sites: sitesSlice.reducer
   },
 })
 

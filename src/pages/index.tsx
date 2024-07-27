@@ -1,15 +1,23 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
+import { Spinner } from "baseui/spinner";
+import { use, useEffect } from "react";
+import { useRouter } from "next/router";
 
 
 const inter = Inter({ subsets: ["latin"] });
 
+
+
 export default function Home() {
 
-  
-  return (
-    <>
-    Hello World
-    </>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push("/login");
+  }
+    , []);
+
+  return <Spinner />;
+
 }

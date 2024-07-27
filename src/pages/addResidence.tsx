@@ -42,8 +42,8 @@ export default function SelectResidence() {
             <Image
               src="/img/residenceIcon.png"
               alt="selectResidence"
-              width={10}
-              height={10}
+              width={40}
+              height={40}
             />
             <div className=" text-2xl font-bold text-black ">Add Residence</div>
             <div className=" text-base font-light text-gray-500">

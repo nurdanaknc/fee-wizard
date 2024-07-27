@@ -71,7 +71,7 @@ export const authOptions: AuthOptions = {
     },
     async session(sessionProps: any) {
       const { session, token } = sessionProps;
-      console.log(token.accessToken, "token");
+    //  console.log(token.accessToken, "token");
       if (token.accessToken) {
         session.accessToken = token.accessToken;
         session.user = {

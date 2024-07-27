@@ -4,7 +4,7 @@ import { activateNavbar } from "@/app/store/api";
 import { Card } from "baseui/card";
 import { title } from "process";
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import {
   Modal,
   ModalHeader,
@@ -17,11 +17,13 @@ import {
 import { KIND as ButtonKind } from "baseui/button";
 import InputField from "@/app/components/inputField";
 import { Router, useRouter } from "next/router";
+import { getPlansBySiteId } from "@/app/store/sites";
 
 export default function ResidenceDetails() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = React.useState(false);
   const [planName, setPlanName] = React.useState("");
+  const plans = useAppSelector((state) => state.sites.plans);
   const data = [
     {
       year: 2024,
@@ -69,6 +71,14 @@ export default function ResidenceDetails() {
   };
   const router = useRouter();
 
+  useEffect(() => {
+    const siteId = localStorage.getItem("siteId") || "";
+    console.log(siteId, "siteId");
+    dispatch(getPlansBySiteId(siteId));
+
+  }
+    , []);
+
   return (
     <>
       <Navbar />
@@ -92,7 +102,7 @@ export default function ResidenceDetails() {
             </div>
             <div className="flow-root">
               <ul role="list" className="divide-y divide-gray-200">
-                {data.map((item, index:number) => (
+                {plans?.map((item, index: number) => (
                   <li key={index} className="py-3 sm:py-4">
                     <div className="flex items-center">
                       <div className="flex-1 min-w-0 ">
@@ -114,17 +124,7 @@ export default function ResidenceDetails() {
                       <div className="inline-flex items-center min-w-0 ms-4">
                         <ButtonComp
                           onClick={() => {
-                            const slug = replaceTurkishCharacters(
-                              item.name
-                                ?.toLowerCase()
-                                .replace(/\s+/g, "-")
-                                .replace("?", "")
-                            );
-                            const sanitizedSlug = slug.replace(
-                              /[^a-zA-Z0-9-]/g,
-                              ""
-                            );
-                            router.push(`plans/${sanitizedSlug}`);
+                            router.push(`plans/${item._id}`);
                           }}
                           label="View Plan"
                           size="small"
