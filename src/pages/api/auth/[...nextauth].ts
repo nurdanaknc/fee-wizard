@@ -41,6 +41,7 @@ export const authOptions: AuthOptions = {
           );
 
           const user = response.data;
+          console.log(user, "user");
 
           if (user) {
             return user;
@@ -58,15 +59,15 @@ export const authOptions: AuthOptions = {
     async jwt(jwtProps: any) {
       const { token, user } = jwtProps;
       
-      if (user?.data) {
-        token.accessToken = user.data;
+      if (user?.access_token) {
+        token.accessToken = user.access_token;
       }
 
       return token;
     },
     async session(sessionProps: any) {
       const { session, token } = sessionProps;
-      
+      console.log(token.accessToken, "token");
       if (token.accessToken) {
         session.accessToken = token.accessToken;
       } else {
