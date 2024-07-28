@@ -18,6 +18,8 @@ import { KIND as ButtonKind } from "baseui/button";
 import InputField from "@/app/components/inputField";
 import { Router, useRouter } from "next/router";
 import { addPlan, getExpensesByPlanId, getPlansBySiteId } from "@/app/store/sites";
+import Icon from "@mdi/react";
+import { mdiChevronLeft } from "@mdi/js";
 
 export default function ResidenceDetails() {
   const dispatch = useAppDispatch();
@@ -43,7 +45,11 @@ export default function ResidenceDetails() {
     <>
       <Navbar />
       <div className="flex items-center justify-center h-screen">
+    
         <Card>
+        <div className=" cursor-pointer" onClick={router.back}>
+          <Icon path={mdiChevronLeft} size={1} color="black" />
+        </div>
           <div className="w-[800px]  p-4  sm:p-8 ">
             <div className="flex flex-row items-center justify-between gap-2 mb-4">
               <div>
@@ -62,7 +68,7 @@ export default function ResidenceDetails() {
             </div>
             <div className="flow-root">
               <ul role="list" className="divide-y divide-gray-200">
-                {plans?.map((item, index: number) => (
+                {plans && plans?.length >= 0 ? plans?.map((item, index: number) => (
                   <li key={index} className="py-3 sm:py-4">
                     <div className="flex items-center">
                       <div className="flex-1 min-w-0 ">
@@ -81,6 +87,14 @@ export default function ResidenceDetails() {
                           {item.year}
                         </p>
                       </div>
+                      <div className="flex-1 min-w-0 ms-4">
+                        <p className="text-sm font-medium text-gray-900 truncate ">
+                          Total
+                        </p>
+                        <p className="text-sm text-gray-500 truncate ">
+                          {Number(item.total).toFixed(2) + "₺"}
+                        </p>
+                      </div>
                       <div className="inline-flex items-center min-w-0 ms-4">
                         <ButtonComp
                           onClick={() => {
@@ -94,7 +108,15 @@ export default function ResidenceDetails() {
                       </div>
                     </div>
                   </li>
-                ))}
+                )) : (<li className="py-3 sm:py-4">
+                  <div className="flex items-center">
+                    <div className="flex-1 min-w-0 ">
+                      <p className="text-sm font-medium text-gray-900 truncate ">
+                        Plan not found! You can add a new plan.
+                      </p>
+                    </div>
+                  </div>
+                </li>)}
               </ul>
             </div>
           </div>
@@ -131,12 +153,13 @@ export default function ResidenceDetails() {
           <ModalFooter>
             <ModalButton kind={ButtonKind.tertiary}>Cancel</ModalButton>
             <ModalButton
-             onClick={() => {
-              const siteId = localStorage.getItem("siteId") || "";
-              dispatch(addPlan({ site_id:siteId, name: planName, year: Number(planYear) }));
-              setIsOpen(false);
-            }
-            }
+              onClick={() => {
+                const siteId = localStorage.getItem("siteId") || "";
+                dispatch(addPlan({ site_id: siteId, name: planName, year: Number(planYear) }));
+                setIsOpen(false);
+                router.reload();
+              }
+              }
             >Add</ModalButton>
           </ModalFooter>
         </Modal>

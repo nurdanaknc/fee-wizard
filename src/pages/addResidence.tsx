@@ -9,11 +9,15 @@ import { mdiHomePlus, mdiChevronLeft } from "@mdi/js";
 import ButtonComp from "@/app/components/button";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { useAppDispatch } from "@/app/store/hooks";
+import { addSite } from "@/app/store/sites";
+import { toaster } from "baseui/toast";
 
 export default function SelectResidence() {
-  const [selectedLocation, setSelectedLocation] = React.useState([]);
+  const [selectedLocation, setSelectedLocation] = React.useState([] as any);
   const [resName, setResName] = React.useState("");
   const [selectedManagers, setSelectedManagers] = React.useState<Value>([]);
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const locations = [
     { id: 1, label: "Local 1" },
@@ -57,7 +61,7 @@ export default function SelectResidence() {
               </span>
               <InputField
                 value={resName}
-                setValue={(e: any) => setResName(e.value)}
+                setValue={setResName}
                 placeholder="Enter residence name.."
               />
               <span className=" text-black text-sm font-medium">Location</span>
@@ -67,23 +71,19 @@ export default function SelectResidence() {
                 placeholder="Select location.."
                 onChange={(e: any) => setSelectedLocation(e.value)}
               ></Select>
-              <span className=" text-black text-sm font-medium">Managers</span>
-              <Select
-                creatable
-                multi
-                options={managers}
-                placeholder="Select managers.."
-                labelKey="label"
-                valueKey="id"
-                onChange={({ value }) => setSelectedManagers(value)}
-                value={selectedManagers}
-              />
             </div>
             <div className="flex flex-col gap-3 w-full">
               <ButtonComp
                 type="addResidence"
                 size="default"
-                onClick={() => alert("click")}
+                onClick={() => {
+                  const user = JSON.parse(localStorage.getItem("user")!) as { user_id : string };
+                  dispatch(addSite({ name: resName, location: selectedLocation[0]?.label, managers: [user?.user_id] })).then(() => {
+                    toaster.positive("Residence added successfully", {});
+                    router.push("/selectResidence");
+                  }
+                  );
+                }}
                 label="Add Residence"
               />
             </div>

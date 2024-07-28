@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { store } from '../app/store/store'
 import { Provider } from 'react-redux'
 import { SessionProvider } from "next-auth/react"
+import Toaster from "@/app/components/toaster";
 
 export default function App({ Component, pageProps: {session, ...pageProps} }: AppProps): JSX.Element  {
 
@@ -19,6 +20,7 @@ export default function App({ Component, pageProps: {session, ...pageProps} }: A
           <BaseProvider theme={LightTheme}>
             <Provider store={store}>
               <div className="">
+                <Toaster/>
                 <Component {...pageProps} />
               </div>
             </Provider>

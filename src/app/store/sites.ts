@@ -18,8 +18,8 @@ export interface sitesState {
     plan: {};
     name: string;
     firstMonth: number;
-    periodicCalculationMethod: string;
-    predictedCalculationMethod: string;
+    periodicCalculationMethod: any;
+    predictedCalculationMethod: any;
     created_At: string;
     __v: number;
     monthly: any[];
@@ -59,11 +59,37 @@ export const getSitesByManagerId = createAsyncThunk(
   }
 );
 
+export const addSite = createAsyncThunk(
+  "addSite",
+  async (data: { name: string; location: string; managers: string[] }) => {
+    try {
+      const response = await axios.post(`/api/server/sites/add`, data);
+      console.log(response, "response");
+      return response;
+    } catch (e: any) {
+      return e?.response;
+    }
+  }
+);
+
 export const getPlansBySiteId = createAsyncThunk(
   "getPlansBySiteId",
   async (site_id: string) => {
     try {
       const response = await axios.get(`/api/server/plans/site/${site_id}`);
+      console.log(response, "response");
+      return response;
+    } catch (e: any) {
+      return e?.response;
+    }
+  }
+);
+
+export const getPlanById = createAsyncThunk(
+  "getPlanById",
+  async (plan_id: string) => {
+    try {
+      const response = await axios.get(`/api/server/plans/${plan_id}`);
       console.log(response, "response");
       return response;
     } catch (e: any) {
@@ -117,6 +143,34 @@ export const addExpense = createAsyncThunk(
   }
 );
 
+export const updateExpenseById = createAsyncThunk(
+  "updateExpense",
+  async (data: {
+    expense_id: string;
+    plan_id: string;
+    name: string;
+    firstMonth: number;
+    periodicCalculationMethod: string;
+    predictedCalculationMethod: string;
+  }) => {
+    try {
+      const response = await axios.put(`/api/server/expenses/update/${data.expense_id}`,
+        {
+          plan_id: data.plan_id,
+          name: data.name,
+          firstMonth: data.firstMonth,
+          periodicCalculationMethod: data.periodicCalculationMethod,
+          predictedCalculationMethod: data.predictedCalculationMethod,
+        }
+      );
+      console.log(response, "response");
+      return response;
+    } catch (e: any) {
+      return e?.response;
+    }
+  }
+);
+
 export const getCalculationMethodByTypeAndSiteId = createAsyncThunk(
   "getCalculationMethodByTypeAndSiteId",
   async (credentials: { site_id: string; type: string }) => {
@@ -124,6 +178,59 @@ export const getCalculationMethodByTypeAndSiteId = createAsyncThunk(
       const response = await axios.get(
         `/api/server/calculation-methods/site/${credentials.site_id}/type/${credentials.type}`
       );
+      console.log(response, "response");
+      return response;
+    } catch (e: any) {
+      return e?.response;
+    }
+  }
+);
+
+export const getCalculationMethodsBySiteId = createAsyncThunk(
+  "getCalculationMethodsBySiteId",
+  async (site_id: string) => {
+    try {
+      const response = await axios.get(`/api/server/calculation-methods/site/${site_id}`);
+      console.log(response, "response");
+      return response;
+    } catch (e: any) {
+      return e?.response;
+    }
+  }
+);
+export const addCalculationMethod = createAsyncThunk(
+  "addCalculationMethod",
+  async (data: {
+    site_id: string;
+    name: string;
+    type: string;
+    monthlyRates: number[];
+  }) => {
+    try {
+      const response = await axios.post(`/api/server/calculation-methods/add`, data);
+      console.log(response, "response");
+      return response;
+    } catch (e: any) {
+      return e?.response;
+    }
+  }
+);
+export const updateCalculationMethod = createAsyncThunk(
+  "updateCalculationMethod",
+  async (data: {
+    method_id: string;
+    site_id: string;
+    name: string;
+    type: string;
+    monthlyRates: number[];
+  }) => {
+    try {
+      const response = await axios.put(`/api/server/calculation-methods/update/${data.method_id}`, {
+        site_id: data.site_id,
+        name: data.name,
+        type: data.type,
+        monthlyRates: data.monthlyRates,
+      });
       console.log(response, "response");
       return response;
     } catch (e: any) {

@@ -11,10 +11,12 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { getSitesByManagerId } from "@/app/store/sites";
+import Toaster from "@/app/components/toaster";
+import { toaster } from "baseui/toast";
 
 export default function SelectResidence() {
-  const [selectedResidence, setSelectedResidence] = React.useState({} as any);
-  const [allResidences , setAllResidences] = React.useState([ ] as any);
+  const [selectedResidence, setSelectedResidence] = React.useState([] as any);
+  const [allResidences , setAllResidences] = React.useState([] as any);
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -32,6 +34,7 @@ export default function SelectResidence() {
     const res = await dispatch(getSitesByManagerId(user?.user_id)); // Access the '_id' property directly
     if (res && user?.user_id) {
    console.log(res, "res");
+   if (res?.payload?.data.length >= 0) {
       setAllResidences(
         res?.payload?.data.map((item: any) => {
           return {
@@ -39,12 +42,13 @@ export default function SelectResidence() {
             label: item?.name,
           };
         })
-      );
+      );}
     }
   }
 
   useEffect(() => {
     getSites();
+    
   }
   , []);
 
@@ -79,9 +83,15 @@ export default function SelectResidence() {
               />
             </div>
             <div className="flex flex-col gap-3 w-full">
-              <Button className="w-full" onClick={() => {router.push("/plans");
+              <Button className="w-full" onClick={() => {
+                if(selectedResidence.length === 0) {
+                  toaster.negative("Please select a residence", {});
+                  return;
+                }
+                else{
+                  router.push("/plans");
                   localStorage.setItem("siteId", selectedResidence[0]?.id);
-
+                }
               }}>
                 Continue
               </Button>

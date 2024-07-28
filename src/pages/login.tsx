@@ -64,7 +64,7 @@ export default function Login() {
     }, []);
     */
 
-    /*
+  /*
   useEffect(() => {
     if (session) {
       router.push("/selectResidence");

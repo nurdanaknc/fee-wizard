@@ -10,5 +10,11 @@ export default function Regex(name: string, value: any) {
     else if (name === "emailRegex") {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); // email
     }
+    else if (name === "numberRegex") {
+        return /^[0-9]*$/.test(value); // number
+    }
+    else if (name === "floatRegex") {
+        return /^[+-]?(\d+(\.\d*)?|\.\d+)$/.test(value); // float
+    }
     
 }
