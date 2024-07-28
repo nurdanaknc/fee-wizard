@@ -16,20 +16,12 @@ export default function Login() {
   const router = useRouter();
 
   const loginSubmit = async () => {
-    // router.push("/users");
-    /*
-    const req = dispatch(login({username: username, password: password}));
-    const res = await req;
-    localStorage.setItem("accessToken", res.payload?.data || "");
-    console.log("response is this \t",res);
-    */
 
     const res = await signIn("credentials", {
       email: email,
       password: password,
       redirect: false,
     });
-    console.log(res, "res");
     if (res?.status == 200) {
       clearErrors();
       router.push("/selectResidence");
@@ -49,29 +41,15 @@ export default function Login() {
     setEmailError(false);
     setPasswordError(false);
   };
-
+  
   /*
     useEffect(() => {
-      const handleKeyPress = async (event: KeyboardEvent) => {
-        if (event.key === "Enter") {
-          await loginSubmit();
-        }
-      };
-      window.addEventListener("keydown", handleKeyPress);
-      return () => {
-        window.removeEventListener("keydown", handleKeyPress);
-      };
-    }, []);
-    */
-
-  /*
-  useEffect(() => {
-    if (session) {
-      router.push("/selectResidence");
+      if (session) {
+        router.push("/selectResidence");
+      }
     }
-  }
-    , [session]);
-*/
+      , [session]);
+  */
 
   useEffect(() => {
     //@ts-ignore

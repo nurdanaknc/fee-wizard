@@ -33,8 +33,7 @@ export default function SelectResidence() {
     const user = JSON.parse(localStorage.getItem("user")!) as { user_id : string }; // Update the type of 'user' variable
     const res = await dispatch(getSitesByManagerId(user?.user_id)); // Access the '_id' property directly
     if (res && user?.user_id) {
-   console.log(res, "res");
-   if (res?.payload?.data.length >= 0) {
+   if (res?.payload?.data && res?.payload?.data.length >= 0) {
       setAllResidences(
         res?.payload?.data.map((item: any) => {
           return {

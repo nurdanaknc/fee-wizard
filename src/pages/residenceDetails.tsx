@@ -1,6 +1,5 @@
 import ButtonComp from "@/app/components/button";
 import Navbar from "@/app/components/navbar";
-import { activateNavbar } from "@/app/store/api";
 import { Card } from "baseui/card";
 import { title } from "process";
 import React, { useEffect } from "react";
@@ -39,9 +38,6 @@ export default function ResidenceDetails() {
       name: "Plan 4",
     },
   ];
-  useEffect(() => {
-    dispatch(activateNavbar());
-  }, [dispatch]);
 
   return (
     <>

@@ -1,6 +1,5 @@
 import ButtonComp from "@/app/components/button";
 import Navbar from "@/app/components/navbar";
-import { activateNavbar } from "@/app/store/api";
 import { Card } from "baseui/card";
 import { title } from "process";
 import React, { useEffect } from "react";
@@ -37,15 +36,11 @@ export default function ResidenceDetails() {
 
   const [calculationMethods, setCalculationMethods] = React.useState([] as any);
 
-  useEffect(() => {
-    dispatch(activateNavbar());
-  }, [dispatch]);
 
   const router = useRouter();
 
   useEffect(() => {
     const siteId = localStorage.getItem("siteId") || "";
-    console.log(siteId, "siteId");
     dispatch(getCalculationMethodsBySiteId(siteId)).then((res) => {
       setCalculationMethods(res.payload?.data);
     });

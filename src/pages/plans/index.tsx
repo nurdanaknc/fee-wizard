@@ -1,7 +1,5 @@
 import ButtonComp from "@/app/components/button";
 import Navbar from "@/app/components/navbar";
-import { activateNavbar } from "@/app/store/api";
-import { Card } from "baseui/card";
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import {
@@ -27,15 +25,10 @@ export default function ResidenceDetails() {
   const [planYear, setPlanYear] = React.useState("");
   const plans = useAppSelector((state) => state.sites.plans);
 
-  useEffect(() => {
-    dispatch(activateNavbar());
-  }, [dispatch]);
-
   const router = useRouter();
 
   useEffect(() => {
     const siteId = localStorage.getItem("siteId") || "";
-    console.log(siteId, "siteId");
     dispatch(getPlansBySiteId(siteId));
   }, [dispatch]);
 

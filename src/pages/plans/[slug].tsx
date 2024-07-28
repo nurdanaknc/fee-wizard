@@ -2,7 +2,6 @@ import ButtonComp from '@/app/components/button';
 import Navbar from '@/app/components/navbar';
 import { Card } from 'baseui/card';
 import React, { useEffect } from 'react';
-import { activateNavbar } from "@/app/store/api";
 import { title } from "process";
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import {
@@ -48,13 +47,11 @@ export default function Plans() {
     const periodicMethods = useAppSelector((state) => state.sites.calculationMethodOptions?.periodic);
 
     useEffect(() => {
-        console.log(slug, "slug");
         if (slug != undefined) {
             dispatch(getExpensesByPlanId(slug as string));
             dispatch(getPlanById(slug as string)).then
                 ((res) => {
                     setCurrentPlan(res.payload.data);
-                    console.log(res.payload.data, "abcdf");
                 });
         }
     }
