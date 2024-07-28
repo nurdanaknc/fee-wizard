@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 :root {
-  background-color: #F2F6FF;
+  background-color: #f6f7f8;
 }
 
 body {
-  background:#F2F6FF;
+  background:#f6f7f8;
 }
 
 

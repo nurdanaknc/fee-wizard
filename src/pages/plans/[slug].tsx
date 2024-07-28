@@ -71,12 +71,15 @@ export default function Plans() {
     return (
         <>
             <Navbar />
-            <div className="flex items-center justify-center h-screen">
-                <Card>
+            <div className="flex items-center justify-center min-h-screen p-4">
+            <div className="w-full h-4/5 md:w-4/5 md:h-4/5  mt-12">
+            <div className="px-4 py-6 bg-white border border-gray-200 rounded-lg shadow
+            max-h-[750px]  overflow-y-auto
+            ">
                     <div className=" cursor-pointer" onClick={router.back}>
                         <Icon path={mdiChevronLeft} size={1} color="black" />
                     </div>
-                    <div className="w-[800px]  p-4  sm:p-8 ">
+                    <div className="p-6 sm:p-10">
                         <div className="flex flex-row items-center justify-between gap-2 mb-4">
                             <div>
                                 <h5 className="text-xl font-bold leading-none text-gray-900 ">
@@ -191,7 +194,8 @@ export default function Plans() {
                             )}
                         </div>
                     </div>
-                </Card>
+                </div>
+            </div>
                 <Modal
                     onClose={() => setIsOpen(false)}
                     closeable

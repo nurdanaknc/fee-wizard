@@ -55,82 +55,85 @@ export default function ResidenceDetails() {
   return (
     <>
       <Navbar />
-      <div className="flex mt-4 justify-center h-screen">
-
-        <Card>
-          <div className=" cursor-pointer" onClick={router.back}>
-            <Icon path={mdiChevronLeft} size={1} color="black" />
-          </div>
-          <div className="w-[800px]  p-4  sm:p-8 ">
-            <div className="flex flex-row items-center justify-between gap-2 mb-4">
-              <div>
-                <h5 className="text-xl font-bold leading-none text-gray-900 ">
-                  Calculation Methods
-                </h5>
-              </div>
-              <ButtonComp
-                onClick={() => {
-                  setMethodName("");
-                  setMethodType("");
-                  setMethodRates([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
-                  setIsOpen(true);
-                }}
-                label="Add Calculation Method"
-                size="small"
-                type="addResidence"
-              />
+      <div className="flex items-center justify-center min-h-screen p-4 ">
+        <div className="w-full h-4/5 md:w-4/5 md:h-4/5  mt-12">
+          <div className="px-4 py-6 bg-white border border-gray-200 rounded-lg shadow
+            max-h-[750px]  overflow-y-auto
+            ">
+            <div className=" cursor-pointer" onClick={router.back}>
+              <Icon path={mdiChevronLeft} size={1} color="black" />
             </div>
-            <div className="flow-root">
-              <ul role="list" className="divide-y divide-gray-200">
-                {calculationMethods && calculationMethods?.length >= 0 ? calculationMethods?.map((item: any, index: number) => (
-                  <li key={index} className="py-3 sm:py-4">
+            <div className="p-6 sm:p-10">
+              <div className="flex flex-row items-center justify-between gap-2 mb-4">
+                <div>
+                  <h5 className="text-xl font-bold leading-none text-gray-900 ">
+                    Calculation Methods
+                  </h5>
+                </div>
+                <ButtonComp
+                  onClick={() => {
+                    setMethodName("");
+                    setMethodType("");
+                    setMethodRates([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
+                    setIsOpen(true);
+                  }}
+                  label="Add Calculation Method"
+                  size="small"
+                  type="addResidence"
+                />
+              </div>
+              <div className="flow-root">
+                <ul role="list" className="divide-y divide-gray-200">
+                  {calculationMethods && calculationMethods?.length >= 0 ? calculationMethods?.map((item: any, index: number) => (
+                    <li key={index} className="py-3 sm:py-4">
+                      <div className="flex items-center">
+                        <div className="flex-1 min-w-0 ">
+                          <p className="text-sm font-medium text-gray-900 truncate ">
+                            Name
+                          </p>
+                          <p className="text-sm text-gray-500 truncate ">
+                            {item.name}
+                          </p>
+                        </div>
+                        <div className="flex-1 min-w-0 ms-4">
+                          <p className="text-sm font-medium text-gray-900 truncate ">
+                            Type
+                          </p>
+                          <p className="text-sm text-gray-500 truncate ">
+                            {item.type}
+                          </p>
+                        </div>
+
+                        <div className="inline-flex items-center min-w-0 ms-4">
+                          <ButtonComp
+                            onClick={() => {
+                              setIsEditOpen(true);
+                              setSelectedMethodId(item._id);
+                              setMethodName(item.name);
+                              setMethodType(item.type);
+                              setMethodRates(item.monthlyRates);
+                            }}
+                            label="View Method"
+                            size="small"
+                            outlined
+                          />
+                        </div>
+                      </div>
+                    </li>
+                  )) : (<li className="py-3 sm:py-4">
                     <div className="flex items-center">
                       <div className="flex-1 min-w-0 ">
                         <p className="text-sm font-medium text-gray-900 truncate ">
-                          Name
+                          Calculation Method not found! You can add a new calculation method.
                         </p>
-                        <p className="text-sm text-gray-500 truncate ">
-                          {item.name}
-                        </p>
-                      </div>
-                      <div className="flex-1 min-w-0 ms-4">
-                        <p className="text-sm font-medium text-gray-900 truncate ">
-                          Type
-                        </p>
-                        <p className="text-sm text-gray-500 truncate ">
-                          {item.type}
-                        </p>
-                      </div>
-
-                      <div className="inline-flex items-center min-w-0 ms-4">
-                        <ButtonComp
-                          onClick={() => {
-                            setIsEditOpen(true);
-                            setSelectedMethodId(item._id);
-                            setMethodName(item.name);
-                            setMethodType(item.type);
-                            setMethodRates(item.monthlyRates);
-                          }}
-                          label="View Method"
-                          size="small"
-                          outlined
-                        />
                       </div>
                     </div>
-                  </li>
-                )) : (<li className="py-3 sm:py-4">
-                  <div className="flex items-center">
-                    <div className="flex-1 min-w-0 ">
-                      <p className="text-sm font-medium text-gray-900 truncate ">
-                        Calculation Method not found! You can add a new calculation method.
-                      </p>
-                    </div>
-                  </div>
-                </li>)}
-              </ul>
+                  </li>)}
+                </ul>
+              </div>
             </div>
           </div>
-        </Card>
+        </div>
         {/*  Add Calculation Method Modal */}
         <Modal
           onClose={() => setIsOpen(false)}
@@ -171,11 +174,10 @@ export default function ResidenceDetails() {
                   <Input
                     value={item}
                     onChange={(e) => {
-                     
-                        const newRates = [...methodRates];
-                        newRates[index] = Number(e.currentTarget.value);
-                        setMethodRates(newRates);
-                      
+                      const newRates = [...methodRates];
+                      newRates[index] = Number(e.currentTarget.value);
+                      setMethodRates(newRates);
+
                     }}
                     placeholder="Enter Rate .."
                   />
@@ -241,14 +243,15 @@ export default function ResidenceDetails() {
                   <Input
                     value={item}
                     onChange={(e) => {
-                        const newRates = [...methodRates];
-                        newRates[index] = Number(e.currentTarget.value);
-                        setMethodRates(newRates);
+                      const newRates = [...methodRates];
+                      newRates[index] = Number(e.currentTarget.value);
+                      setMethodRates(newRates);
                     }}
                     placeholder="Enter Rate .."
                   />
                 </div>
-              ))}              </div>
+              ))}
+            </div>
 
           </div>
           <ModalFooter>
@@ -265,8 +268,7 @@ export default function ResidenceDetails() {
                 }))
                 setIsOpen(false);
                 router.reload();
-              }
-              }
+              }}
             >Update</ModalButton>
           </ModalFooter>
         </Modal>
