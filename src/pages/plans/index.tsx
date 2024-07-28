@@ -17,65 +17,25 @@ import {
 import { KIND as ButtonKind } from "baseui/button";
 import InputField from "@/app/components/inputField";
 import { Router, useRouter } from "next/router";
-import { getPlansBySiteId } from "@/app/store/sites";
+import { addPlan, getExpensesByPlanId, getPlansBySiteId } from "@/app/store/sites";
 
 export default function ResidenceDetails() {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = React.useState(false);
   const [planName, setPlanName] = React.useState("");
+  const [planYear, setPlanYear] = React.useState("");
   const plans = useAppSelector((state) => state.sites.plans);
-  const data = [
-    {
-      year: 2024,
-      name: "Plan 1",
-    },
-    {
-      year: 2025,
-      name: "Plan 2",
-    },
-    {
-      year: 2026,
-      name: "Plan 3",
-    },
-    {
-      year: 2027,
-      name: "Plan 4",
-    },
-  ];
+
   useEffect(() => {
     dispatch(activateNavbar());
   }, [dispatch]);
-  type TurkishCharacters = {
-    ç: string;
-    ğ: string;
-    ı: string;
-    ö: string;
-    ş: string;
-    ü: string;
-  };
 
-  const replaceTurkishCharacters = (str: string) => {
-    const turkishMap: TurkishCharacters = {
-      ç: "c",
-      ğ: "g",
-      ı: "i",
-      ö: "o",
-      ş: "s",
-      ü: "u",
-    };
-
-    return str.replace(
-      /[çğıöşü]/g,
-      (match) => turkishMap[match as keyof TurkishCharacters]
-    );
-  };
   const router = useRouter();
 
   useEffect(() => {
     const siteId = localStorage.getItem("siteId") || "";
     console.log(siteId, "siteId");
     dispatch(getPlansBySiteId(siteId));
-
   }
     , []);
 
@@ -125,6 +85,7 @@ export default function ResidenceDetails() {
                         <ButtonComp
                           onClick={() => {
                             router.push(`plans/${item._id}`);
+                            dispatch(getExpensesByPlanId(item._id));
                           }}
                           label="View Plan"
                           size="small"
@@ -153,27 +114,30 @@ export default function ResidenceDetails() {
               <span className=" text-black text-sm font-medium">Plan Name</span>
               <InputField
                 value={planName}
-                setValue={(e: any) => {
-                  setPlanName(e.value);
-                }}
+                setValue={setPlanName}
                 placeholder="Enter Plan Name.."
               />
             </div>
             <div className="flex flex-col gap-2 w-full">
               <span className=" text-black text-sm font-medium">Plan Year</span>
               <InputField
-                value={planName}
-                setValue={(e: any) => {
-                  setPlanName(e.value);
-                }}
+                value={planYear}
+                setValue={setPlanYear}
                 type="number"
-                placeholder="Enter Plan Name.."
+                placeholder="Enter Plan Year.."
               />
             </div>
           </div>
           <ModalFooter>
             <ModalButton kind={ButtonKind.tertiary}>Cancel</ModalButton>
-            <ModalButton>Add</ModalButton>
+            <ModalButton
+             onClick={() => {
+              const siteId = localStorage.getItem("siteId") || "";
+              dispatch(addPlan({ site_id:siteId, name: planName, year: Number(planYear) }));
+              setIsOpen(false);
+            }
+            }
+            >Add</ModalButton>
           </ModalFooter>
         </Modal>
       </div>

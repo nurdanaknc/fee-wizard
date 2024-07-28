@@ -10,13 +10,14 @@ import ButtonComp from "@/app/components/button";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import { getSitesByManagerId, setSite } from "@/app/store/sites";
+import { getSitesByManagerId } from "@/app/store/sites";
 
 export default function SelectResidence() {
   const [selectedResidence, setSelectedResidence] = React.useState({} as any);
   const [allResidences , setAllResidences] = React.useState([ ] as any);
   const router = useRouter();
   const dispatch = useAppDispatch();
+
 
   const residences = [
     { id: 1, label: "Residence 1" },
@@ -25,17 +26,21 @@ export default function SelectResidence() {
     { id: 4, label: "Residence 4" },
     { id: 5, label: "Residence 5" },
   ];
-
+  
   const getSites = async () => {
-    const res = await dispatch(getSitesByManagerId("66a2e0fae342a56c79f163a1"));
-    setAllResidences(
-      res.payload?.data.map((item: any) => {
-        return {
-          id: item?._id,
-          label: item?.name,
-        };
-      })
-    );
+    const user = JSON.parse(localStorage.getItem("user")!) as { user_id : string }; // Update the type of 'user' variable
+    const res = await dispatch(getSitesByManagerId(user?.user_id)); // Access the '_id' property directly
+    if (res && user?.user_id) {
+   console.log(res, "res");
+      setAllResidences(
+        res?.payload?.data.map((item: any) => {
+          return {
+            id: item?._id,
+            label: item?.name,
+          };
+        })
+      );
+    }
   }
 
   useEffect(() => {

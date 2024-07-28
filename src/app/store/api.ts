@@ -19,21 +19,6 @@ const initialState: FeeWizardState = {
   }
 };
 
-
-export const api = createAsyncThunk(
-  "api",
-  async (id: string) => {
-    try {
-      const response = await axios.post(
-        `/api/server/..`
-      );
-      return response?.data;
-    } catch (e: any) {
-      return e?.response?.data;
-    }
-  }
-);
-
 export const feeWizardSlice = createSlice({
   name: "feeWizard",
   initialState,
