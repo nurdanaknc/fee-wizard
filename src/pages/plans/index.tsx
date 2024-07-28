@@ -39,7 +39,7 @@ export default function ResidenceDetails() {
     console.log(siteId, "siteId");
     dispatch(getPlansBySiteId(siteId));
   }
-    , []);
+    , [dispatch]);
 
   return (
     <>

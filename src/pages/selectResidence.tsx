@@ -50,7 +50,7 @@ export default function SelectResidence() {
     getSites();
     
   }
-  , []);
+  ,);
 
   return (
     <div className="flex items-center justify-center h-screen">

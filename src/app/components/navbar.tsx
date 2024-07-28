@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import ButtonComp from "./button";
 import { Button } from "baseui/button";
+import Link from "next/link";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(true);
@@ -16,18 +17,18 @@ export default function Navbar() {
         {(
         <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
           <div className="text-sm lg:flex-grow text-black">
-            <a
+            <Link
               href="/plans"
               className="block mt-4 lg:inline-block lg:mt-0  hover:text-gray-400 mr-4"
             >
               Plans
-            </a>
-            <a
+            </Link>
+            <Link
               href="/calculation-methods"
               className="block mt-4 lg:inline-block lg:mt-0  hover:text-gray-400 mr-4"
             >
               Calculation Methods
-            </a>
+            </Link>
          
           </div>
         </div>

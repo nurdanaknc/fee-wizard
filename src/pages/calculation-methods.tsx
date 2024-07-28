@@ -50,7 +50,7 @@ export default function ResidenceDetails() {
       setCalculationMethods(res.payload?.data);
     });
   }
-    , []);
+    , [dispatch]);
 
   return (
     <>
@@ -244,7 +244,7 @@ export default function ResidenceDetails() {
                         const newRates = [...methodRates];
                         newRates[index] = Number(e.currentTarget.value);
                         setMethodRates(newRates);
-x                    }}
+                    }}
                     placeholder="Enter Rate .."
                   />
                 </div>

@@ -58,7 +58,7 @@ export default function Plans() {
                 });
         }
     }
-        , [slug]);
+        , [slug, dispatch]);
 
     useEffect(() => {
 
@@ -66,7 +66,7 @@ export default function Plans() {
         dispatch(getCalculationMethodByTypeAndSiteId({ site_id: siteId, type: "predicted" }));
         dispatch(getCalculationMethodByTypeAndSiteId({ site_id: siteId, type: "periodic" }));
     }
-        , []);
+        , [dispatch]);
 
     return (
         <>
