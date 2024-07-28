@@ -4,10 +4,11 @@ import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 const httpsAgent = new https.Agent({
-  rejectUnauthorized: false, // Set to false for testing
+  rejectUnauthorized: false, // Temporarily set to false for testing
 });
 
 console.log(process.env.NEXT_PUBLIC_API_URL, "API URL");
+console.log(process.env.NEXTAUTH_SECRET, "NextAuth Secret");
 
 export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -27,6 +28,7 @@ export const authOptions: AuthOptions = {
       },
       authorize: async (credentials) => {
         try {
+          console.log("Authorizing user with credentials:", credentials);
           const response = await axios.post(
             "/users/login",
             {
@@ -39,15 +41,18 @@ export const authOptions: AuthOptions = {
             }
           );
 
-          console.log(response.data, "response data"); // Log response data for debugging
+          console.log("Response data:", response.data); // Log response data for debugging
           const user = response.data;
           if (user) {
             return user;
           } else {
             return null;
           }
-        } catch (error) {
-          console.error("Authorization error:", error);
+        } catch (error: any) {
+          console.error("Authorization error:", error); // Detailed error logging
+          if (error.response) {
+            console.error("Response error data:", error.response.data);
+          }
           return null;
         }
       },
