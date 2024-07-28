@@ -3,18 +3,17 @@ import * as https from "https";
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-
 const httpsAgent = new https.Agent({
-  rejectUnauthorized: true,
+  rejectUnauthorized: false, // Set to false for testing
 });
 
-console.log(process.env.NEXT_PUBLIC_API_URL, "api url");
+console.log(process.env.NEXT_PUBLIC_API_URL, "API URL");
 
 export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
-    maxAge: 1 * 60 * 60, // 1 saat
+    maxAge: 1 * 60 * 60, // 1 hour
   },
   pages: {
     signIn: "/login",
@@ -40,9 +39,8 @@ export const authOptions: AuthOptions = {
             }
           );
 
+          console.log(response.data, "response data"); // Log response data for debugging
           const user = response.data;
-          console.log(user, "user");
-
           if (user) {
             return user;
           } else {
@@ -70,7 +68,6 @@ export const authOptions: AuthOptions = {
     },
     async session(sessionProps: any) {
       const { session, token } = sessionProps;
-    //  console.log(token.accessToken, "token");
       if (token.accessToken) {
         session.accessToken = token.accessToken;
         session.user = {
